@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipo Feedback App</title>
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" xintegrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Estilos generales para el cuerpo */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa; /* Fondo gris claro */
+            color: #495057; /* Color de texto gris oscuro */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alinear contenido al inicio */
+            min-height: 100vh; /* Altura mínima del viewport */
+        }
+
+        /* Estilos del encabezado */
+        header {
+            background-color: #007bff; /* Fondo azul para el encabezado */
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-style: italic;
+            color: #ddd; /* Texto más claro para el subtítulo */
+        }
+
+        /* Estilos de navegación */
+        nav {
+            background-color: #343a40; /* Fondo gris oscuro para la navegación */
+            color: white;
+            padding: 0.5em 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            display: inline-block;
+            transition: background-color 0.3s ease; /* Efecto de hover suave */
+        }
+
+        nav a:hover {
+            background-color: #495057; /* Fondo más oscuro al hacer hover */
+        }
+
+        /* Estilos del contenedor principal */
+        .container {
+            width: 90%;
+            max-width: 1200px; /* Ancho máximo para pantallas grandes */
+            margin: 2em auto;
+            background-color: white;
+            padding: 2em;
+            border-radius: 8px; /* Esquinas redondeadas */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra suave */
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        /* Títulos de sección */
+        h2 {
+            color: #007bff; /* Color de encabezado azul */
+            text-align: center;
+            border-bottom: 2px solid #007bff; /* Efecto de subrayado */
+            padding-bottom: 0.5em;
+            margin-bottom: 1em;
+        }
+
+        /* Estilos del formulario de feedback */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 0.75em;
+            font-weight: 500;
+            color: #343a40;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            padding: 0.75em;
+            margin-top: 0.3em;
+            margin-bottom: 1em;
+            border: 1px solid #ced4da; /* Borde gris claro */
+            border-radius: 4px;
+            font-size: 1em;
+            transition: border-color 0.2s ease; /* Efecto de foco suave */
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #007bff; /* Borde azul al enfocar */
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra azul al enfocar */
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin-bottom: 1em;
+        }
+
+        .rating-value {
+            text-align: center;
+            font-size: 1.2em;
+            color: #007bff; /* Valor de calificación azul */
+        }
+
+        /* Casilla de verificación de anonimato */
+        .anonymous-option {
+            margin-top: 1em;
+        }
+
+        .anonymous-option label {
+            font-weight: normal;
+        }
+
+        /* Botón de envío */
+        button {
+            background-color: #28a745; /* Fondo verde para el botón */
+            color: white;
+            padding: 0.75em 1.5em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease; /* Efecto de hover suave */
+            align-self: center; /* Centrar el botón */
+            width: fit-content; /* Ancho ajustado al contenido */
+            margin-top: 1em;
+        }
+
+        button:hover {
+            background-color: #218838; /* Verde más oscuro al hacer hover */
+        }
+
+        /* Sección de resultados */
+        .results {
+            margin-top: 2em;
+            padding-top: 2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chart {
+            width: 100%;
+            max-width: 800px; /* Ancho máximo para el gráfico */
+            margin-bottom: 2em;
+        }
+
+        .motivational-message {
+            background-color: #d1e7dd; /* Fondo verde claro */
+            color: #0f5132; /* Texto verde oscuro */
+            padding: 1em;
+            margin-bottom: 1em;
+            border-left: 5px solid #3bb75e; /* Borde izquierdo verde */
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        /* Estilos del pie de página */
+        footer {
+            background-color: #343a40; /* Fondo gris oscuro para el pie de página */
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            width: 100%;
+            margin-top: auto; /* Empujar el pie de página hacia abajo */
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        }
+
+        /* Diseño responsivo usando media queries */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%; /* Contenedor más ancho en pantallas pequeñas */
+                padding: 1em;
+            }
+            nav a {
+                display: block; /* Apilar enlaces de navegación verticalmente */
+                padding: 0.5em;
+            }
+            .chart {
+                max-width: 100%; /* El gráfico ocupa todo el ancho */
+            }
+        }
+
+        /* Estilos de gamificación */
+        .badges {
+            display: flex;
+            justify-content: center;
+            margin-top: 1em;
+            flex-wrap: wrap; /* Permitir que las insignias se envuelvan en pantallas pequeñas */
+        }
+
+        .badge {
+            margin: 0.5em; /* Margen ajustado para mejor espaciado */
+            padding: 0.5em 1em;
+            background-color: #ffc107; /* Fondo amarillo para insignias */
+            color: #212529; /* Texto oscuro para insignias */
+            border-radius: 5px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5em; /* Espacio entre el icono y el texto */
+        }
+
+        /* Área de mejora */
+        .improve-area {
+            text-align: center;
+            margin-top: 20px;
+            padding: 1em;
+            background-color: #f8d7da; /* Fondo rojo claro */
+            color: #721c24; /* Texto rojo oscuro */
+            border-left: 5px solid #dc3545; /* Borde izquierdo rojo */
+            border-radius: 4px;
+        }
+
+        .improve-area h3 {
+            color: #dc3545; /* Encabezado rojo */
+            margin-bottom: 0.5em;
+        }
+
+        .improve-area p {
+            font-style: italic;
+            margin: 0;
+        }
+    </style>
+    <!-- Librería Chart.js para visualización de datos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Feedback Flow</h1>
+        <p>Impulsando el crecimiento y la colaboración.</p>
+    </header>
+
+    <nav>
+        <a href="#feedback-form"><i class="fas fa-comment-dots"></i> Dar Feedback</a>
+        <a href="#results"><i class="fas fa-chart-bar"></i> Ver Resultados</a>
+    </nav>
+
+    <div class="container">
+        <!-- Sección del formulario de envío de feedback -->
+        <section id="feedback-form">
+            <h2>Comparte tu Opinión</h2>
+            <p>Ayuda a tus compañeros a crecer mediante retroalimentación constructiva.</p>
+
+            <form id="feedbackForm">
+                <label for="recipient"><i class="fas fa-user"></i> Destinatario:</label>
+                <input type="text" id="recipient" name="recipient" placeholder="Nombre del compañero" required>
+
+                <label for="category"><i class="fas fa-list"></i> Categoría:</label>
+                <select id="category" name="category">
+                    <option value="colaboracion">Colaboración</option>
+                    <option value="comunicacion">Comunicación</option>
+                    <option value="compromiso">Compromiso</option>
+                    <option value="liderazgo">Liderazgo</option>
+                    <option value="creatividad">Creatividad</option>
+                </select>
+
+                <label for="rating"><i class="fas fa-star-half-alt"></i> Valoración (1-5):</label>
+                <input type="range" id="rating" name="rating" min="1" max="5" value="3">
+                <div class="rating-value">Valor actual: <span id="ratingValue">3</span></div>
+
+                <label for="comments"><i class="fas fa-comments"></i> Comentarios:</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Comentarios específicos y sugerencias"></textarea>
+
+                <div class="anonymous-option">
+                    <input type="checkbox" id="anonymous" name="anonymous">
+                    <label for="anonymous"><i class="fas fa-user-secret"></i> Retroalimentación anónima</label>
+                </div>
+
+                <button type="submit"><i class="fas fa-paper-plane"></i> Enviar Feedback</button>
+            </form>
+        </section>
+
+        <!-- Sección de resultados y gamificación -->
+        <section id="results" class="results">
+            <h2>Análisis de Resultados</h2>
+            <p>Visualiza tu progreso y descubre áreas de mejora continua.</p>
+
+            <div class="chart">
+                <canvas id="feedbackChart"></canvas>
+            </div>
+
+            <div class="motivational-message">
+                "El feedback es el desayuno de los campeones." - Ken Blanchard
+            </div>
+
+            <div class="improve-area">
+                <h3>Áreas a mejorar</h3>
+                <p>Basado en tus calificaciones, te sugerimos enfocarte en <span id="suggestedImprovements">liderazgo y colaboración</span>.</p>
+            </div>
+
+            <div class="badges">
+                <div class="badge"><i class="fas fa-trophy"></i> Colaborador Estrella</div>
+                <div class="badge"><i class="fas fa-award"></i> Líder Inspirador</div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Feedback Flow. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Obtener elementos del DOM
+            const ratingInput = document.getElementById('rating');
+            const ratingValue = document.getElementById('ratingValue');
+            const feedbackForm = document.getElementById('feedbackForm');
+            const feedbackChartCanvas = document.getElementById('feedbackChart').getContext('2d');
+            const suggestedImprovementsSpan = document.getElementById('suggestedImprovements');
+            let feedbackChart;
+
+            // Almacenar datos de feedback
+            const feedbackData = {
+                colaboracion: { sum: 0, count: 0 },
+                comunicacion: { sum: 0, count: 0 },
+                compromiso: { sum: 0, count: 0 },
+                liderazgo: { sum: 0, count: 0 },
+                creatividad: { sum: 0, count: 0 }
+            };
+
+            // Actualizar el valor de la calificación dinámicamente a medida que se mueve el deslizador
+            ratingInput.addEventListener('input', () => {
+                ratingValue.textContent = ratingInput.value;
+            });
+
+            // Manejar el envío del formulario
+            feedbackForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevenir el envío predeterminado del formulario
+
+                // Obtener valores del formulario
+                const recipient = document.getElementById('recipient').value;
+                const category = document.getElementById('category').value;
+                const rating = parseInt(document.getElementById('rating').value);
+                const comments = document.getElementById('comments').value;
+                const anonymous = document.getElementById('anonymous').checked;
+
+                // Registrar feedback en la consola (en una aplicación real, esto se enviaría a un servidor)
+                console.log('Feedback enviado:', {
+                    recipient,
+                    category,
+                    rating,
+                    comments,
+                    anonymous
+                });
+
+                // Actualizar los datos del gráfico y volver a renderizar el gráfico
+                updateChart(category, rating);
+                updateImprovementSuggestions();
+
+                // Restablecer el formulario y la visualización de la calificación
+                feedbackForm.reset();
+                ratingValue.textContent = '3';
+            });
+
+            // Función para inicializar o actualizar el gráfico
+            function initializeChart() {
+                // Preparar los datos del gráfico a partir de feedbackData
+                const labels = Object.keys(feedbackData).map(key => {
+                    // Poner en mayúscula la primera letra para mostrar
+                    return key.charAt(0).toUpperCase() + key.slice(1);
+                });
+                const data = Object.values(feedbackData).map(item => {
+                    return item.count > 0 ? item.sum / item.count : 0;
+                });
+
+                const chartConfig = {
+                    type: 'radar', // Tipo de gráfico de radar para datos multidimensionales
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Puntuación Promedio',
+                            data: data,
+                            backgroundColor: 'rgba(0, 123, 255, 0.4)', // Azul con transparencia
+                            borderColor: 'rgba(0, 123, 255, 1)', // Borde azul sólido
+                            borderWidth: 2,
+                            pointBackgroundColor: 'rgba(0, 123, 255, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(0, 123, 255, 1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Permitir que el gráfico se redimensione libremente
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 5, // Valor máximo de calificación
+                                ticks: {
+                                    stepSize: 1,
+                                    color: '#495057' // Color de la etiqueta del tick
+                                },
+                                angleLines: {
+                                    color: '#e9ecef' // Líneas de ángulo gris claro
+                                },
+                                grid: {
+                                    color: '#e9ecef' // Líneas de cuadrícula gris claro
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    color: '#343a40' // Color de la etiqueta de la leyenda
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += Math.round(context.raw * 100) / 100; // Mostrar dos decimales
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        elements: {
+                            line: {
+                                borderWidth: 3 // Línea más gruesa para el gráfico de radar
+                            }
+                        }
+                    }
+                };
+
+                // Destruir el gráfico existente si lo hay antes de crear uno nuevo
+                if (feedbackChart) {
+                    feedbackChart.destroy();
+                }
+                feedbackChart = new Chart(feedbackChartCanvas, chartConfig);
+            }
+
+            // Función para actualizar los datos del gráfico
+            function updateChart(category, rating) {
+                if (feedbackData[category]) {
+                    feedbackData[category].sum += rating;
+                    feedbackData[category].count += 1;
+                    initializeChart(); // Volver a inicializar el gráfico para actualizar
+                }
+            }
+
+            // Función para actualizar las sugerencias de mejora basadas en los datos de feedback actuales
+            function updateImprovementSuggestions() {
+                let lowestRatedCategories = [];
+                let minRating = 5.1; // Inicializar con un valor superior a la calificación máxima posible
+
+                for (const category in feedbackData) {
+                    if (feedbackData[category].count > 0) {
+                        const averageRating = feedbackData[category].sum / feedbackData[category].count;
+                        if (averageRating < minRating) {
+                            minRating = averageRating;
+                            lowestRatedCategories = [category]; // Iniciar una nueva lista si se encuentra un nuevo mínimo
+                        } else if (averageRating === minRating) {
+                            lowestRatedCategories.push(category); // Añadir a la lista si la calificación es igual al mínimo
+                        }
+                    }
+                }
+
+                if (lowestRatedCategories.length > 0) {
+                    const formattedCategories = lowestRatedCategories.map(cat => {
+                        return cat.charAt(0).toUpperCase() + cat.slice(1); // Poner en mayúscula para mostrar
+                    }).join(' y ');
+                    suggestedImprovementsSpan.textContent = formattedCategories;
+                } else {
+                    suggestedImprovementsSpan.textContent = "todas las áreas. ¡Sigue así!";
+                }
+            }
+
+            // Renderizado inicial del gráfico cuando la página carga
+            initializeChart();
+            updateImprovementSuggestions(); // Establecer sugerencias iniciales
+        });
+    </script>
+
+</body>
+</html>
